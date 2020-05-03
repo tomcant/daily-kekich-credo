@@ -1,0 +1,22 @@
+#!/bin/bash
+
+command -v jq >/dev/null || {
+  echo -e 'ERROR: jq is missing' >&2
+  exit 1
+}
+
+readonly CREDOS_FILE='credos.json'
+readonly INDEX_FILE='index.html'
+readonly BUILD_DIR='public'
+
+rm -rf "${BUILD_DIR}"
+mkdir -p "${BUILD_DIR}"
+
+day_of_year=$(date +%j)
+total_credos=$(jq '. | length' "${CREDOS_FILE}")
+credo_number=$((day_of_year % total_credos))
+credo_text=$(jq -r ".[${credo_number} - 1]" "${CREDOS_FILE}")
+
+sed -e "s#{{ credo_number }}#${credo_number}#" \
+  -e "s#{{ credo_text }}#${credo_text}#" \
+  "${INDEX_FILE}.tpl" >"${BUILD_DIR}/${INDEX_FILE}"
