@@ -9,6 +9,12 @@
   <body>
     <h1>Daily Kekich Credo</h1>
     <p>Credo &#35;{{ credo_number }}</p>
-    <blockquote>{{ credo_text }}</blockquote>
+    <blockquote>
+      <p>{{ credo_text }}</p>
+      <footer>
+        &ndash;
+        <cite>David Kekich</cite>
+      </footer>
+    </blockquote>
   </body>
 </html>
