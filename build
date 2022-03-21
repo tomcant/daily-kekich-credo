@@ -12,7 +12,7 @@ readonly BUILD_DIR='public'
 rm -rf "${BUILD_DIR}"
 mkdir -p "${BUILD_DIR}"
 
-day_of_year=$(date +%j)
+day_of_year=$(date +%j | sed 's/^0*//')
 total_credos=$(jq '. | length' "${CREDOS_FILE}")
 credo_number=$((day_of_year % total_credos))
 credo_text=$(jq -r ".[${credo_number} - 1]" "${CREDOS_FILE}")
